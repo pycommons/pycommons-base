@@ -1,11 +1,13 @@
 import typing
 from typing import TypeVar, Optional
 
+from pycommons.base.utils.utils import UtilityClass
+
 _T = TypeVar("_T")
 _E = TypeVar("_E", Exception, RuntimeError)
 
 
-class ObjectUtils:
+class ObjectUtils(UtilityClass):
     @classmethod
     def require_not_none(cls, t: Optional[_T], e: Optional[_E] = None) -> None:
         if t is None:
