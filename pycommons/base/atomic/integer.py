@@ -1,5 +1,5 @@
 from pycommons.base.atomic.atomic import Atomic
-from pycommons.base.base.synchronized import synchronized
+from pycommons.base.synchronized import synchronized
 from pycommons.base.container import IntegerContainer
 
 

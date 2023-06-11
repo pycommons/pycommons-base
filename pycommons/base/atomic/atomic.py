@@ -1,6 +1,6 @@
 from typing import TypeVar, Generic, Optional
 
-from pycommons.base.base.synchronized import RLockSynchronized, synchronized
+from pycommons.base.synchronized import RLockSynchronized, synchronized
 from pycommons.base.container import Container
 
 _T = TypeVar("_T")
