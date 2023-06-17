@@ -47,5 +47,5 @@ class ObjectUtils(UtilityClass):
         return None
 
     @classmethod
-    def default_if_none(cls, obj: Optional[_T], default: _T):
+    def default_if_none(cls, obj: Optional[_T], default: _T) -> _T:
         return default if obj is None else obj
