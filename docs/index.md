@@ -7,7 +7,9 @@
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Python Commons Base package that serves as the base package for all the other
+Python Commons Base package that serves as the base package for all the other pycommons libraries like
+[pycommons-lang](https://github.com/pycommons/pycommons-lang)
+and [pycommons-collections](https://github.com/pycommons/pycommons-collections).
 
 Visit the [documentation](https://pycommons.github.io/pycommons-base) to view
 the usage of each and every class and feature provided by this library.
@@ -30,7 +32,7 @@ poetry add pycommons-base
 
 ## License
 
-Apache-2.0 (See [License](LICENSE))
+Apache-2.0 (See [License](../LICENSE))
 
 ## Author
 

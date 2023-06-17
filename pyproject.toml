@@ -28,8 +28,8 @@ importlib_metadata = "*"
 typing_extensions = "4.6.3"
 
 [tool.poetry.dev-dependencies]
-mkdocs-material = ">7.0.0"
-mkdocstrings = { version = ">0.18", extras = ["python-legacy"] }
+mkdocs-material = ">7.1.0"
+mkdocstrings = { version = ">0.18", extras = ["python"] }
 mkdocs-awesome-pages-plugin = "*"
 markdown-include = "*"
 livereload = "*"

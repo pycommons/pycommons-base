@@ -1,8 +1,8 @@
 ---
 # Project Information
-site_name: PyCommons Lang
+site_name: pycommons-base
 site_author: Shashank Sharma
-site_description: Python Commons Lang
+site_description: Python Commons Base
 remote_branch: gh-pages
 remote_name: origin
 site_url: https://pycommons.github.io/pycommons-base
@@ -38,6 +38,9 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.snippets
+  - pymdownx.superfences
   - pymdownx.emoji:
       emoji_generator: !!python/name:pymdownx.emoji.to_png
   - pymdownx.tasklist:
@@ -59,7 +62,21 @@ theme:
   language: en
   base_url: https://github.com/pycommons/pycommons-base
   palette:
-    primary: 'white'
+    # Palette toggle for light mode
+    - scheme: default
+      primary: blue grey
+      accent: red
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: blue grey
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 # Footer
 extra:
   config_override: false
@@ -71,6 +88,15 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/shashankrnr32
       name: shashankrnr32 on GitHub
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/shashankrnr32
+      name: shashankrnr32 on Twitter
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/shashankrnr32
+      name: shashankrnr32 on LinkedIn
+    - icon: fontawesome/brands/mastodon
+      link: https://fosstodon.org/@shashankrnr32
+      name: shashankrnr32 on fosstodon
 
 plugins:
   - search
