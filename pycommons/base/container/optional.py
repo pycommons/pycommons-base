@@ -6,8 +6,8 @@ from pycommons.base.exception import NoSuchElementError
 from pycommons.base.function.consumer import Consumer
 from pycommons.base.function.function import Function
 from pycommons.base.function.predicate import Predicate
-from pycommons.base.function.runnable import Runnable
-from pycommons.base.function.supplier import Supplier
+from pycommons.base.function.runnable import RunnableType, Runnable
+from pycommons.base.function.supplier import Supplier, SupplierType
 from pycommons.base.utils.objectutils import ObjectUtils
 
 _T = TypeVar("_T", Any, None)
@@ -18,15 +18,20 @@ _E = TypeVar("_E", RuntimeError, Exception)
 class OptionalContainer(Generic[_T]):
     """
     Identical implementation of Java's Optional.
-    A container object which may or may not contain a non-null value
+    A container object which may or may not contain a non-null value.
 
-    See Also
+    References:
         https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html
     """
 
     _value: _T
 
     def __init__(self, value: Optional[_T]):
+        """
+        Initialize the container with a value if present, None if not.
+        Args:
+            value: The initializing value. Can be None or not-None
+        """
         self._value = value
 
     def get(self) -> _T:
@@ -76,7 +81,7 @@ class OptionalContainer(Generic[_T]):
         if self.is_present():
             consumer.accept(self._value)
 
-    def if_present_or_else(self, consumer: Consumer[_T], runnable: Runnable) -> None:
+    def if_present_or_else(self, consumer: Consumer[_T], runnable: RunnableType) -> None:
         """
         Runs a consumer if the value is present, else runs the runnable
         Args:
@@ -90,7 +95,7 @@ class OptionalContainer(Generic[_T]):
         if self.is_present():
             consumer.accept(self._value)
         else:
-            runnable.run()
+            Runnable.of(runnable).run()
 
     def filter(self, predicate: Predicate[_T]) -> OptionalContainer[_T]:
         ObjectUtils.require_not_none(predicate)
@@ -113,22 +118,22 @@ class OptionalContainer(Generic[_T]):
 
         return ObjectUtils.get_not_none(mapper.apply(self._value))
 
-    def in_turn(self, supplier: Supplier[OptionalContainer[_T]]) -> OptionalContainer[_T]:
+    def in_turn(self, supplier: SupplierType[OptionalContainer[_T]]) -> OptionalContainer[_T]:
         if self.is_present():
             return self
 
-        return ObjectUtils.get_not_none(supplier.get())
+        return ObjectUtils.get_not_none(Supplier.of(supplier).get())
 
     def or_else(self, other: _T) -> _T:
         return self._value if self.is_present() else other
 
-    def or_else_get(self, supplier: Supplier[_T]) -> _T:
-        return self._value if self.is_present() else supplier.get()
+    def or_else_get(self, supplier: SupplierType[_T]) -> _T:
+        return self._value if self.is_present() else Supplier.of(supplier).get()
 
-    def or_else_throw(self, supplier: Optional[Supplier[_E]] = None) -> _T:
+    def or_else_throw(self, supplier: Optional[SupplierType[_E]] = None) -> _T:
         if self.is_empty():
             if supplier:
-                raise supplier.get()
+                raise Supplier.of(supplier).get()
             raise NoSuchElementError("No value present")
         return self._value
 

@@ -1,11 +1,20 @@
 from __future__ import annotations
 
 from pycommons.base.atomic.atomic import Atomic
-from pycommons.base.synchronized import synchronized
 from pycommons.base.container.boolean import BooleanContainer
+from pycommons.base.synchronized import synchronized
 
 
 class AtomicBoolean(BooleanContainer, Atomic[bool]):  # pylint: disable=R0901
+    """
+    Atomic Boolean Container that allows atomic update of the container value.
+    The object is synchronized for read and write operations so that only one read/write
+    happens at a time. This is ensured using re-entrant locks. Provides
+    all the functionalities provided by the
+    [BooleanContainer][pycommons.base.container.BooleanContainer]
+
+    """
+
     @synchronized
     def true(self) -> bool:
         return super().true()
