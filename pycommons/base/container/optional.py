@@ -6,7 +6,7 @@ from pycommons.base.exception import NoSuchElementError
 from pycommons.base.function.consumer import Consumer
 from pycommons.base.function.function import Function
 from pycommons.base.function.predicate import Predicate
-from pycommons.base.function.runnable import Runnable
+from pycommons.base.function.runnable import RunnableType, Runnable
 from pycommons.base.function.supplier import Supplier, SupplierType
 from pycommons.base.utils.objectutils import ObjectUtils
 
@@ -81,7 +81,7 @@ class OptionalContainer(Generic[_T]):
         if self.is_present():
             consumer.accept(self._value)
 
-    def if_present_or_else(self, consumer: Consumer[_T], runnable: Runnable) -> None:
+    def if_present_or_else(self, consumer: Consumer[_T], runnable: RunnableType) -> None:
         """
         Runs a consumer if the value is present, else runs the runnable
         Args:
@@ -95,7 +95,7 @@ class OptionalContainer(Generic[_T]):
         if self.is_present():
             consumer.accept(self._value)
         else:
-            runnable.run()
+            Runnable.of(runnable).run()
 
     def filter(self, predicate: Predicate[_T]) -> OptionalContainer[_T]:
         ObjectUtils.require_not_none(predicate)
