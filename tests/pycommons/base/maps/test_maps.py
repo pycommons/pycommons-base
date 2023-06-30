@@ -5,7 +5,6 @@ from pycommons.base.maps import Map
 
 
 class TestMap(TestCase):
-
     def test_map_methods(self):
         commons_map: Map[str, Any] = Map()
 

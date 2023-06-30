@@ -9,7 +9,7 @@ _U = TypeVar("_U")
 
 class Consumer(Generic[_T]):
     @classmethod
-    def of(cls, consumer: ConsumerType) -> Consumer[_T]:
+    def of(cls, consumer: ConsumerType[_T]) -> Consumer[_T]:
         class BasicConsumer(Consumer[_T]):
             def accept(self, value: _T) -> None:
                 consumer(value)
@@ -49,7 +49,7 @@ that can defined for it to be called a consumer lambda.
 
 class BiConsumer(Generic[_T, _U]):
     @classmethod
-    def of(cls, consumer: BiConsumerType[[_T, _U], None]) -> BiConsumer[_T, _U]:
+    def of(cls, consumer: BiConsumerType[_T, _U]) -> BiConsumer[_T, _U]:
         class BasicBiConsumer(BiConsumer[_T, _U]):
             def accept(self, t: _T, u: _U) -> None:
                 consumer(t, u)

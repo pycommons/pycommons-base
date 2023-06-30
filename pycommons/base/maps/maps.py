@@ -1,4 +1,4 @@
-import dataclasses
+import typing
 from collections import UserDict
 from typing import TypeVar, Generic, Dict, Optional, Set
 
@@ -11,23 +11,33 @@ _K = TypeVar("_K")
 _V = TypeVar("_V")
 
 
-class Map(UserDict, Generic[_K, _V]):
+class Map(UserDict, Generic[_K, _V]):  # type: ignore
     """
     The custom Dictionary implementation that provides methods
     that are similar to Java's [Map](https://docs.oracle.com/javase/8/docs/api/java/util/Map.html)
     implementation.
     """
+
     data: Dict[_K, _V]
 
-    @dataclasses.dataclass
-    class Entry(Generic[_K, _V]):
+    class Entry:
         """
         A dataclass that holds an entry(key, value) of a map.
         """
-        key: _K
-        value: _V
 
-        def __hash__(self):
+        def __init__(self, key: _K, value: _V):
+            self._key: _K = key
+            self._value: _V = value
+
+        @property
+        def key(self) -> _K:
+            return self._key
+
+        @property
+        def value(self) -> _V:
+            return typing.cast(_V, self._value)
+
+        def __hash__(self) -> int:
             return hash(self.key)
 
     def put(self, k: _K, v: _V) -> _V:
@@ -43,7 +53,7 @@ class Map(UserDict, Generic[_K, _V]):
         self.data[k] = v
         return self.data[k]
 
-    def put_entry(self, entry: "Map.Entry[_K, _V]") -> None:
+    def put_entry(self, entry: "Map.Entry") -> None:
         """
         Put an entry to the map
         Args:
@@ -52,7 +62,7 @@ class Map(UserDict, Generic[_K, _V]):
         Returns:
             None
         """
-        self.put(entry.key, entry.value)
+        self.put(typing.cast(_K, entry.key), typing.cast(_V, entry.value))
 
     def put_if_absent(self, k: _K, v: _V) -> _V:
         """
@@ -68,7 +78,7 @@ class Map(UserDict, Generic[_K, _V]):
             self.put(k, v)
         return self.data[k]
 
-    def compute_if_absent(self, k: _K, function: FunctionType[_K, _V]):
+    def compute_if_absent(self, k: _K, function: FunctionType[_K, _V]) -> _V:
         """
         Add a key value pair by calling a function that
         returns the value based on the key passed.
@@ -78,7 +88,7 @@ class Map(UserDict, Generic[_K, _V]):
             function: the callable that generates the value
 
         Returns:
-
+            the value
         """
         self.put_if_absent(k, Function.of(function).apply(k))
         return self.data[k]
@@ -128,14 +138,16 @@ class Map(UserDict, Generic[_K, _V]):
     def remove(self, k: _K) -> Optional[_V]:
         """
         Removes a key `k` from the map if its present and returns the removed value. If the key
-        is not present, the method returns `None`. The return value `None` does not imply that the key
-        was not present in the dictionary. It can also mean, the value of the key in the map was None.
+        is not present, the method returns `None`. The return value `None`
+        does not imply that the key was not present in the dictionary.
+        It can also mean, the value of the key in the map was None.
 
         Args:
             k: key to be removed from map
 
         Returns:
-            Value if the key is present. None, if the value is None or the map doesn't contain the key.
+            Value if the key is present. None, if the value is None or the
+            map doesn't contain the key.
         """
         return self.data.pop(k) if k in self.data else None
 
@@ -160,14 +172,14 @@ class Map(UserDict, Generic[_K, _V]):
         """
         return set(self.keys())
 
-    def entry_set(self):
+    def entry_set(self) -> Set["Map.Entry"]:
         """
         Returns the set of `Map.Entry` in the map
 
         Returns:
             Set of map entries
         """
-        return set([Map.Entry(k, v) for k, v in self.data.items()])
+        return {Map.Entry(k, v) for k, v in self.data.items()}
 
     def for_each(self, bi_consumer: BiConsumerType[_K, _V]) -> None:
         """
@@ -179,11 +191,11 @@ class Map(UserDict, Generic[_K, _V]):
         Returns:
             None
         """
-        consumer: BiConsumer[_K, _V] = BiConsumer.of(bi_consumer)
+        _consumer: BiConsumer[_K, _V] = BiConsumer.of(bi_consumer)
         for k, v in self.data.items():
-            consumer.accept(k, v)
+            _consumer.accept(k, v)
 
-    def for_each_entry(self, consumer: ConsumerType["Map.Entry[_K, _V]"]) -> None:
+    def for_each_entry(self, consumer: ConsumerType["Map.Entry"]) -> None:
         """
         Runs a consumer callable on each entry(`Map.Entry`) in the map
         Args:
@@ -192,9 +204,9 @@ class Map(UserDict, Generic[_K, _V]):
         Returns:
             None
         """
-        consumer: Consumer[Map.Entry[_K, _V]] = Consumer.of(consumer)
+        _consumer: Consumer[Map.Entry] = Consumer.of(consumer)
         for k, v in self.data.items():
-            consumer.accept(Map.Entry(k, v))
+            _consumer.accept(Map.Entry(k, v))
 
     def replace_old_value(self, k: _K, old_value: _V, new_value: _V) -> bool:
         """
@@ -217,8 +229,10 @@ class Map(UserDict, Generic[_K, _V]):
     def replace(self, k: _K, v: _V) -> Optional[_V]:
         """
         Replace the key from the map if present. Returns the old value if present. The method
-        will return None otherwise. The return value None does not imply that the key was not replaced. It
-        can also mean that the value against that key was None before replacement.
+        will return None otherwise. The return value None does not imply that the
+        key was not replaced. It can also mean that the value against that key was
+        None before replacement.
+
         Args:
             k: key
             v: value
@@ -232,7 +246,7 @@ class Map(UserDict, Generic[_K, _V]):
             return _old_value
         return None
 
-    def stream(self) -> Stream["Map.Entry[_K, _V]"]:
+    def stream(self) -> Stream["Map.Entry"]:
         """
         Create a stream of the map entries present in the map.
 
