@@ -3,6 +3,11 @@ from __future__ import annotations
 
 from importlib_metadata import PackageNotFoundError, version
 
+from .char import Char
+from .synchronized import Synchronized
+
+__all__ = ["__author__", "__email__", "__version__", "Char", "Synchronized"]
+
 __author__ = "Shashank Sharma"
 __email__ = "shashankrnr32@gmail.com"
 
