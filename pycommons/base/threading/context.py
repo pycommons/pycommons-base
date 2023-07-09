@@ -14,16 +14,18 @@ class ThreadContext:
     References:
         https://logging.apache.org/log4j/2.x/log4j-api/apidocs/org/apache/logging/log4j/ThreadContext.html
     """
+    _CTX_MAP_ATTR = "__context_map__"
 
     @classmethod
     def __get_ctx_map(cls) -> Map[str, Any]:
         current_thread = threading.current_thread()
+
         try:
-            _ctx_map = current_thread.__context_map__
+            _ctx_map: Any = getattr(current_thread, cls._CTX_MAP_ATTR)
             assert isinstance(_ctx_map, Map)
         except AttributeError:
-            current_thread.__context_map__ = Map()
-        return typing.cast(Map[str, Any], current_thread.__context_map__)
+            setattr(current_thread, cls._CTX_MAP_ATTR, Map())
+        return typing.cast(Map[str, Any], getattr(current_thread, cls._CTX_MAP_ATTR))
 
     @classmethod
     def get(cls, key: str, default: Any = None) -> Any:
