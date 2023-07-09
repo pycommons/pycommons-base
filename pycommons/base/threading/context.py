@@ -14,6 +14,7 @@ class ThreadContext:
     References:
         https://logging.apache.org/log4j/2.x/log4j-api/apidocs/org/apache/logging/log4j/ThreadContext.html
     """
+
     _CTX_MAP_ATTR = "__context_map__"
 
     @classmethod
