@@ -3,7 +3,7 @@
 [tool.poetry]
 name = "pycommons.base"
 version = "0.0.0"
-homepage = "https://github.com/shashankrnr32/pycommons-base"
+homepage = "https://github.com/pycommons/pycommons-base"
 description = "Python Commons Base"
 authors = ["Shashank Sharma <shashankrnr32@gmail.com>"]
 readme = "README.md"
@@ -57,7 +57,7 @@ max-locals = 20
 min-public-method = 0
 
 [tool.pytest.ini_options]
-addopts = "--cov=pycommons --cov-branch --cov-report term-missing --cov-report xml -vv --color=yes --cov-fail-under 45"
+addopts = "--cov=pycommons --cov-branch --cov-report term-missing --cov-report xml -vv --color=yes --cov-fail-under 60"
 python_files = "tests.py test_*.py *_tests.py *Test.py"
 
 [build-system]
