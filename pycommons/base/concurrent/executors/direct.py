@@ -1,7 +1,7 @@
 from concurrent.futures import Executor, Future
-from typing import ParamSpec, Callable, TypeVar
+from typing import Callable, TypeVar, Any
 
-_P = ParamSpec("_P")
+_P = TypeVar("_P")
 _T = TypeVar("_T")
 
 
@@ -11,7 +11,7 @@ class DirectExecutor(Executor):
     This is usually helpful when writing tests for background processes.
     """
 
-    def submit(self, fn: Callable[_P, _T], *args: _P.args, **kwargs: _P.kwargs) -> Future[_T]:
+    def submit(self, fn: Callable[[Any], _T], *args: Any, **kwargs: Any) -> Future:
         """
         Submits a callable to run.
         Args:
