@@ -1,4 +1,4 @@
-__all__ = ["NoSuchElementError"]
+__all__ = ["NoSuchElementError", "IllegalStateException"]
 
 
 class NoSuchElementError(RuntimeError):
