@@ -1,0 +1,4 @@
+nav:
+    - pycommons.base.concurrent.future: future.md
+
+title: future
