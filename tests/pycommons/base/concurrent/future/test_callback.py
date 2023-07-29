@@ -7,7 +7,6 @@ from pycommons.base.concurrent.future import FutureOnDoneCallback
 
 class TestFutureOnDoneCallback(TestCase):
     class CallbackFixture(FutureOnDoneCallback[None]):
-
         def apply(self, t: Future) -> None:
             assert True is t.result()
 

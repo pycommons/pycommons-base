@@ -5,7 +5,6 @@ from pycommons.base.concurrent.executor import DirectExecutor
 
 
 class TestDirectExecutor(TestCase):
-
     def test_direct_executor_executes_runnable_on_the_same_thread(self):
         def runnable():
             return threading.current_thread()

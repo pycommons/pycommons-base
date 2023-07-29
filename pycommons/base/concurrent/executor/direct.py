@@ -13,7 +13,7 @@ class DirectExecutor(Executor):
     This is usually helpful when writing tests for background processes.
     """
 
-    _instance: ClassVar[DirectExecutor]
+    __instance__: ClassVar[DirectExecutor]
     """
     A class instance of the direct executor which can be used everywhere
     for executing a task in the same thread as that of the caller.
@@ -27,7 +27,7 @@ class DirectExecutor(Executor):
         Returns:
             The singleton instance of `DirectExecutor`
         """
-        return cls._instance
+        return cls.__instance__
 
     def submit(  # pylint: disable=W0221
         self, fn: Callable[[Any], _T], *args: Any, **kwargs: Any
@@ -55,4 +55,4 @@ class DirectExecutor(Executor):
         return _future
 
 
-DirectExecutor._instance = DirectExecutor()
+DirectExecutor.__instance__ = DirectExecutor()
