@@ -12,4 +12,5 @@ class FutureOnDoneCallback(Function[Future, _T], ABC, Generic[_T]):
     A Functional Interface that can be used to register a callback using the
     Future's `add_done_callback` method
     """
+
     ...

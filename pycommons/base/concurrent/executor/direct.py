@@ -20,7 +20,7 @@ class DirectExecutor(Executor):
     """
 
     @classmethod
-    def get_instance(cls):
+    def get_instance(cls) -> DirectExecutor:
         """
         Gets the singleton instance of `DirectExecutor`
 
