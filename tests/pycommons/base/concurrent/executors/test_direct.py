@@ -9,18 +9,14 @@ class TestDirectExecutor(TestCase):
         def runnable():
             return threading.current_thread()
 
-        executor = DirectExecutor.get_instance()
-
-        future = executor.submit(runnable)
-
-        self.assertEqual(threading.current_thread(), future.result())
+        with DirectExecutor.get_instance() as executor:
+            future = executor.submit(runnable)
+            self.assertEqual(threading.current_thread(), future.result())
 
     def test_direct_executor_executes_runnable_and_throws_exception_on_the_same_thread(self):
         def runnable():
-            raise Exception(threading.current_thread())
+            raise RuntimeError(threading.current_thread())
 
-        executor = DirectExecutor.get_instance()
-
-        future = executor.submit(runnable)
-
-        self.assertEqual(threading.current_thread(), future.exception().args[0])
+        with DirectExecutor.get_instance() as executor:
+            future = executor.submit(runnable)
+            self.assertEqual(threading.current_thread(), future.exception().args[0])
