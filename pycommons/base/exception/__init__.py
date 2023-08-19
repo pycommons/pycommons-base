@@ -11,9 +11,9 @@ from typing import Optional, Any
 
 
 class CommonsException(Exception):
-    def __init__(
+    def __init__(  # pylint: disable=W1113
         self, message: Optional[str] = None, cause: Optional[Exception] = None, *args: Any
-    ) -> None:  # pylint: disable=W1113
+    ) -> None:
         super().__init__(*args)
         if cause is not None:
             self.__cause__ = cause
@@ -33,9 +33,9 @@ class CommonsException(Exception):
 
 
 class CommonsRuntimeException(RuntimeError):
-    def __init__(
+    def __init__(  # pylint: disable=W1113
         self, message: Optional[str] = None, cause: Optional[Exception] = None, *args: Any
-    ) -> None:  # pylint: disable=W1113
+    ) -> None:
         super().__init__(*args)
         if cause is not None:
             self.__cause__ = cause
