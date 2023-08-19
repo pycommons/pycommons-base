@@ -1,21 +1,28 @@
-__all__ = ["CommonsException", "CommonsRuntimeException", "NoSuchElementError", "IllegalStateException"]
+__all__ = [
+    "CommonsException",
+    "CommonsRuntimeException",
+    "NoSuchElementError",
+    "IllegalStateException",
+]
 
 import traceback
-from typing import Optional
+from types import TracebackType
+from typing import Optional, Any
 
 
 class CommonsException(Exception):
-
-    def __init__(self, message: Optional[str] = None, cause: Optional[Exception] = None, *args):
+    def __init__(
+        self, message: Optional[str] = None, cause: Optional[Exception] = None, *args: Any
+    ) -> None:  # pylint: disable=W1113
         super().__init__(*args)
         if cause is not None:
             self.__cause__ = cause
         self._message = message
 
-    def get_cause(self) -> Optional[Exception]:
+    def get_cause(self) -> Optional[BaseException]:
         return self.__cause__
 
-    def get_traceback(self):
+    def get_traceback(self) -> Optional[TracebackType]:
         return self.__traceback__
 
     def get_message(self) -> Optional[str]:
@@ -26,16 +33,18 @@ class CommonsException(Exception):
 
 
 class CommonsRuntimeException(RuntimeError):
-    def __init__(self, message: Optional[str] = None, cause: Optional[Exception] = None, *args):
+    def __init__(
+        self, message: Optional[str] = None, cause: Optional[Exception] = None, *args: Any
+    ) -> None:  # pylint: disable=W1113
         super().__init__(*args)
         if cause is not None:
             self.__cause__ = cause
         self._message = message
 
-    def get_cause(self) -> Optional[Exception]:
+    def get_cause(self) -> Optional[BaseException]:
         return self.__cause__
 
-    def get_traceback(self):
+    def get_traceback(self) -> Optional[TracebackType]:
         return self.__traceback__
 
     def get_message(self) -> Optional[str]:

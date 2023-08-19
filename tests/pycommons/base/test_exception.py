@@ -5,10 +5,9 @@ from tests.parametrized import CommonsTestData, cases
 
 
 class TestCommonsException(TestCase):
-
     @cases(
         CommonsTestData(data=CommonsException, expected=None),
-        CommonsTestData(data=CommonsRuntimeException, expected=None)
+        CommonsTestData(data=CommonsRuntimeException, expected=None),
     )
     def test_initialize_without_params(self, test_data: CommonsTestData):
         try:
@@ -21,7 +20,7 @@ class TestCommonsException(TestCase):
 
     @cases(
         CommonsTestData(data=CommonsException, expected="Some error occurred"),
-        CommonsTestData(data=CommonsRuntimeException, expected="Some error occurred")
+        CommonsTestData(data=CommonsRuntimeException, expected="Some error occurred"),
     )
     def test_initialize_with_message(self, test_data: CommonsTestData):
         try:
@@ -33,7 +32,7 @@ class TestCommonsException(TestCase):
 
     @cases(
         CommonsTestData(data=CommonsException, expected="Some error occurred"),
-        CommonsTestData(data=CommonsRuntimeException, expected="Some error occurred")
+        CommonsTestData(data=CommonsRuntimeException, expected="Some error occurred"),
     )
     def test_initialize_with_cause(self, test_data: CommonsTestData):
         _cause = Exception("cause exception")
@@ -47,7 +46,7 @@ class TestCommonsException(TestCase):
 
     @cases(
         CommonsTestData(data=CommonsException, expected="Some error occurred"),
-        CommonsTestData(data=CommonsRuntimeException, expected="Some error occurred")
+        CommonsTestData(data=CommonsRuntimeException, expected="Some error occurred"),
     )
     def test_initialize_with_cause2(self, test_data: CommonsTestData):
         _cause = Exception("cause exception")
